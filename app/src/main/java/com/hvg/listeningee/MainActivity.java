@@ -1,64 +1,47 @@
 package com.hvg.listeningee;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.Activity;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import vh.Weather;
+import vh.WeatherAdapter;
 
-    Button btnSend;
-    Button btnNext;
-    EditText txtMessage;
-    EditText txtResultText;
+public class MainActivity extends Activity {
 
-    ListView listView;
+    ListView listview1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        btnSend = (Button)findViewById(R.id.btn_send);
-        btnNext = (Button)findViewById(R.id.btnNext);
+        listview1 = (ListView)findViewById(R.id.listView1);
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        Weather weather_data[] = new Weather[]{
+            new Weather(R.mipmap.android, "test 1"),
+            new Weather(R.mipmap.android, "test 2"),
+            new Weather(R.mipmap.android, "test 3"),
+            new Weather(R.mipmap.android, "test 4")
+        };
+
+        WeatherAdapter adapter = new WeatherAdapter(this, R.layout.listview_item_row, weather_data);
+        listview1.setAdapter(adapter);
+
+        View header = (View)getLayoutInflater().inflate(R.layout.listview_header_row, null);
+        listview1.addHeaderView(header);
+
+        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                txtMessage = (EditText)findViewById(R.id.edit_message);
-                txtResultText = (EditText)findViewById(R.id.result_text);
-
-                txtResultText.setText(txtMessage.getText().toString());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView txt = (TextView) view.findViewById(R.id.txtTitle);
+                Toast.makeText(MainActivity.this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NextActivity.class);
-                intent.putExtra("key", "Hello world");
-                startActivity(intent);
-            }
-        });
-
-        populateListView();
-    }
-
-    private void populateListView() {
-        String[] items = {"History", "Lessons  for beginner", "Intermediate Level"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items, items);
-
-        listView = (ListView)findViewById(R.id.listItems);
-        listView.setAdapter(adapter);
     }
 
 }
