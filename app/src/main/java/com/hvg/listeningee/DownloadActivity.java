@@ -1,5 +1,7 @@
 package com.hvg.listeningee;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
@@ -87,6 +89,20 @@ public class DownloadActivity extends Activity {
                 }
             }
         });
+
+        PackageManager m = getPackageManager();
+        String s = getPackageName();
+        PackageInfo p = null;
+        try {
+            p = m.getPackageInfo(s, 0);
+
+            String appPath = p.applicationInfo.dataDir;
+            Log.w("DEBUG : App Path", appPath);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

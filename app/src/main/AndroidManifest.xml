@@ -12,28 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ListViewActivity"
             android:label="@string/title_activity_main"></activity>
         <activity
             android:name=".MainTestActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".NextActivity"
             android:label="@string/title_activity_next" />
         <activity
             android:name=".DownloadActivity"
-            android:label="@string/title_activity_download">
-        </activity>
+            android:label="@string/title_activity_download"></activity>
         <activity
             android:name=".AdmobActivity"
-            android:label="@string/title_activity_admob">
+            android:label="@string/title_activity_admob" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LessonListActivity"
+            android:label="@string/title_activity_lesson_list"></activity>
     </application>
 
 </manifest>

@@ -1,47 +1,53 @@
 package com.hvg.listeningee;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import vh.Weather;
-import vh.WeatherAdapter;
 
 public class MainActivity extends Activity {
 
-    ListView listview1;
+    public static final String LEVEL = "level";
+    ListView listItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listview1 = (ListView)findViewById(R.id.listView1);
+        listItems = (ListView) findViewById(R.id.listItems);
 
-        Weather weather_data[] = new Weather[]{
-            new Weather(R.mipmap.android, "test 1"),
-            new Weather(R.mipmap.android, "test 2"),
-            new Weather(R.mipmap.android, "test 3"),
-            new Weather(R.mipmap.android, "test 4")
-        };
-
-        WeatherAdapter adapter = new WeatherAdapter(this, R.layout.listview_item_row, weather_data);
-        listview1.setAdapter(adapter);
-
-        View header = (View)getLayoutInflater().inflate(R.layout.listview_header_row, null);
-        listview1.addHeaderView(header);
-
-        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView txt = (TextView) view.findViewById(R.id.txtTitle);
-                Toast.makeText(MainActivity.this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
+                clickItem(parent, view, position, id);
             }
         });
+
+        populateListView();
+    }
+
+    private void populateListView() {
+        String[] items = {"History", "Lessons  for beginner", "Intermediate Level"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items, items);
+
+        listItems = (ListView)findViewById(R.id.listItems);
+        listItems.setAdapter(adapter);
+    }
+
+    private void clickItem(AdapterView<?> parent, View view, int position, long id){
+        TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+        Log.w("DEBUG: ", "Index-" + position + " : " + txtTitle.getText().toString());
+
+        Intent intent = new Intent(MainActivity.this, LessonListActivity.class);
+        //intent.putExtra(LEVEL, txtTitle.getText().toString());
+        intent.putExtra(LEVEL, position);
+        startActivity(intent);
     }
 
 }
